@@ -14,7 +14,7 @@ def authenticate_user(login_request: LoginRequest, response: Response):
     if login_request.username == USERNAME and login_request.password == PASSWORD:
         expiration = datetime.now(timezone.utc) + timedelta(hours=48)
         token = jwt.encode({"exp": expiration.timestamp()}, SECRET_KEY, algorithm="HS256")
-        response.set_cookie(key="token", value=token, httponly=True, secure=True, samesite="None")
+        response.set_cookie(key="token", value=token, httponly=True, secure=True, samesite="none")
         return {"status": "success", "message": "Login successful"}
     else:
         raise HTTPException(status_code=401, detail="Invalid credentials")
