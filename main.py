@@ -30,7 +30,7 @@ app = FastAPI(lifespan=lifespan)
 # CORS 설정
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000","https://investment-helper-fe-hnxi-tr6l9elec-0715yks-projects.vercel.app/"],  # 필요한 경우 클라이언트 주소를 추가
+    allow_origins=["http://localhost:3000","https://investment-helper-fe-hnxi.vercel.app/"],  # 필요한 경우 클라이언트 주소를 추가
     allow_methods=["*"],
     allow_headers=["*"],
 )
