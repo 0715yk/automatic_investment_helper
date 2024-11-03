@@ -1,13 +1,13 @@
-from fastapi import APIRouter, Request, Response
+from fastapi import APIRouter, Request
 from models.auth_models import LoginRequest
 from services.auth_service import authenticate_user, auth_status
 
 router = APIRouter()
 
 @router.post("/login")
-async def login(login_request: LoginRequest, response: Response):
+async def login(login_request: LoginRequest):
     # 로그인 요청 처리 및 JWT 토큰 생성 후 응답
-    return authenticate_user(login_request, response)
+    return authenticate_user(login_request)
 
 @router.get("/auth/status")
 async def check_auth_status(request: Request):
