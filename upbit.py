@@ -21,6 +21,7 @@ def get_account_info():
     }
 
     # JWT 토큰 생성
+
     jwt_token = jwt.encode(payload, secret_key, algorithm="HS256")
     authorization = 'Bearer {}'.format(jwt_token)
     headers = {

@@ -1,4 +1,4 @@
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException
+from fastapi import FastAPI, WebSocket, Request, WebSocketDisconnect, HTTPException, Response
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 import pyupbit
@@ -13,6 +13,7 @@ import pandas as pd
 import datetime
 import requests
 from upbit import get_account_info  # upbit.py에서 get_balance 함수 가져오기
+from account import LoginRequest, authenticate_user, auth_status, logout
 
 # lifespan을 사용한 서버 시작 시 초기화 설정
 @asynccontextmanager
@@ -30,6 +31,7 @@ app = FastAPI(lifespan=lifespan)
 # CORS 설정
 app.add_middleware(
     CORSMiddleware,
+    allow_credentials=True,  # 쿠키를 포함하여 요청을 허용
     allow_origins=["http://localhost:3000","https://investment-helper-fe-hnxi.vercel.app/"],  # 필요한 경우 클라이언트 주소를 추가
     allow_methods=["*"],
     allow_headers=["*"],
@@ -41,6 +43,22 @@ app.add_middleware(
 #     ssl._create_default_https_context = ssl._create_unverified_context
 # except AttributeError:
 #     pass
+
+
+# 인증 상태 확인 엔드포인트
+@app.get("/api/auth/status")
+async def check_auth_status(request: Request):
+    return auth_status(request)
+
+# 로그인
+@app.post("/api/login")
+async def login(login_request: LoginRequest, response: Response):
+    return authenticate_user(login_request, response)
+
+# 로그아웃 엔드포인트
+@app.post("/api/logout")
+async def logout_user(response: Response):
+    return logout(response)
 
 # 특정 코인 잔고 가져오기
 @app.get("/api/account-info")
@@ -64,7 +82,6 @@ coin_data = {}
 @app.get("/top-coins/")
 async def get_top_coins():
     # 전체 마켓 목록을 가져오는 엔드포인트
-    print('hello')
     market_url = "https://api.upbit.com/v1/market/all"
     market_response = requests.get(market_url)
 
