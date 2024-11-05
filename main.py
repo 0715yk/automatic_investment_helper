@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routers import auth, account
-from routers.shiba_router import router as shiba_router
+# from routers.shiba_router import router as shiba_router
 from routers.portfolio_router import router as portfolio_router
 
 app = FastAPI()
@@ -18,5 +18,5 @@ app.add_middleware(
 # 라우터 등록
 app.include_router(auth.router, prefix="/api")
 app.include_router(account.router, prefix="/api")
-app.include_router(shiba_router, prefix="/api")
+# app.include_router(shiba_router, prefix="/api")
 app.include_router(portfolio_router, prefix="/api")
