@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from routers import auth, account
 # from routers.shiba_router import router as shiba_router
 from routers.portfolio_router import router as portfolio_router
+from routers import bollinger
 
 app = FastAPI()
 
@@ -20,3 +21,4 @@ app.include_router(auth.router, prefix="/api")
 app.include_router(account.router, prefix="/api")
 # app.include_router(shiba_router, prefix="/api")
 app.include_router(portfolio_router, prefix="/api")
+app.include_router(bollinger.router,  prefix="/api")
